@@ -1,0 +1,2 @@
+# bombix
+silkworm project
