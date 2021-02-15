@@ -43,6 +43,10 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800)
    =======
    2013/JAN/31  - First version (KTOWN)
 */
+/* CHAINING 
+ *  If using sensor with + and center joined, use TSL2561_ADDR_HIGH 
+ *  if center and - joined, use TSL2561_ADDR_LOW. if no join, use TSL2561_ADDR_FLOAT
+ *  name them eg TSL2561 tsl_1(TSL2561_ADDR_LOW), TSL2561 tsl_2(TSL2561_ADDR_HIGH), etc */
    
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
@@ -137,14 +141,15 @@ void loop(void)
   /* Get a new sensor event */ 
   sensors_event_t event;
   tsl.getEvent(&event);
- 
+  /* displaySensorDetails(); */
+
   /* Display the results (light is measured in lux) */
   if (event.light)
   {
     int isItOn = event.light;
     Serial.print(isItOn);
     
-    if (isItOn >= 100)
+    if (isItOn >= 25)
     {
       strip.setPixelColor(0, 255, 128, 0);
       strip.show();
@@ -161,5 +166,5 @@ void loop(void)
        and no reliable data could be generated! */
     Serial.println("Sensor overload");
   }
-  delay(500);
+  delay(100);
 }
